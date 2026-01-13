@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>My Cart</h1>
+    <p id="total">Total: 120$</p>
+    <button
+      style="padding: 16px 32px; font-size: 20px; width: 100%"
+      onclick="sentToTalToFlutter()"
+    >
+      Checkout
+    </button>
+
+    <p id="msg">No message yet</p>
+
+    <script>
+      function sentToTalToFlutter() {
+        var total = document.getElementById("total").innerText;
+        FlutterChannel.postMessage(total);
+      }
+
+      function showMessageFromFlutter(msg) {
+        document.getElementById("msg").innerText = "Flutter say: " + msg;
+        return "Message received:" + msg;
+      }
+    </script>
+  </body>
+</html>
