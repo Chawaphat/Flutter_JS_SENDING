@@ -65,9 +65,23 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(12.0),
               color: const Color.fromARGB(255, 219, 219, 219),
               width: double.infinity,
-              child: Text(
-                'Received from JavaScript: $totalFromJS',
-                style: const TextStyle(fontSize: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Received from JavaScript: $totalFromJS',
+                      style: const TextStyle(fontSize: 20),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: _sentTotalToJS,
+                    child: const Text('+100'),
+                  ),
+                ],
               ),
             ),
           ],
@@ -85,5 +99,13 @@ class _MyHomePageState extends State<MyHomePage> {
       "showMessageFromFlutter('Hello from Flutter! with return value');",
     );
     debugPrint('Result from JS: $result');
+  }
+
+  Future<void> _sentTotalToJS() async {
+    final newTotal = int.parse(totalFromJS) + 100;
+    final result = await _controller.runJavaScriptReturningResult(
+      "changeTotalFromFlutter($newTotal);",
+    );
+    debugPrint('Total from JS: $result');
   }
 }

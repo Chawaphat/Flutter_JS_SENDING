@@ -4,10 +4,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        max-width: 300px;
+      }
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      button {
+        padding: 4px 8px;
+        cursor: pointer;
+      }
+      .total {
+        margin-top: 16px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
     <h1>My Cart</h1>
-    <p id="total">Total: 120$</p>
+    <ul>
+      <li>
+        Apple - $30
+        <button onclick="addToTotal(30)">Add</button>
+      </li>
+      <li>
+        Banana - $20
+        <button onclick="addToTotal(20)">Add</button>
+      </li>
+      <li>
+        Orange - $25
+        <button onclick="addToTotal(25)">Add</button>
+      </li>
+      <li>
+        Milk - $45
+        <button onclick="addToTotal(45)">Add</button>
+      </li>
+      <li>
+        Bread - $35
+        <button onclick="addToTotal(35)">Add</button>
+      </li>
+    </ul>
+    <h2>Your Cart</h2>
+    <div class="total">Total: $<span id="total">0</span></div>
     <button
       style="padding: 16px 32px; font-size: 20px; width: 100%"
       onclick="sentToTalToFlutter()"
@@ -25,7 +73,21 @@
 
       function showMessageFromFlutter(msg) {
         document.getElementById("msg").innerText = "Flutter say: " + msg;
+
         return "Message received:" + msg;
+      }
+
+      let total = 0;
+      function addToTotal(amount) {
+        total += amount;
+        document.getElementById("total").innerText = total;
+        FlutterChannel.postMessage(total.toString);
+      }
+
+      function changeTotalFromFlutter(newTotal) {
+        total = Number(newTotal);
+        document.getElementById("total").textContent = total;
+        return newTotal;
       }
     </script>
   </body>
